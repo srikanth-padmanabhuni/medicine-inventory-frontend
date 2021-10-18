@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { DashboardService } from 'src/app/services/dashboard.service';
 
 @Component({
@@ -18,7 +18,8 @@ export class DashboardComponent implements OnInit {
   availableStock: number = 0;
   expiryDate: Date = new Date();
 
-  constructor(private dashboardService: DashboardService) { }
+  constructor(private dashboardService: DashboardService,
+    private ref: ChangeDetectorRef) { }
 
   ngOnInit(): void {
     this.listAllMedicines();
@@ -48,7 +49,7 @@ export class DashboardComponent implements OnInit {
     }
     this.dashboardService.createMedicine(medicineData).subscribe(
       (createdMedicine) => {
-        this.allMedicinesList.add(createdMedicine);
+        this.allMedicinesList.push(createdMedicine);
       },
       (error) => {
         this.handleError(error);
@@ -74,9 +75,10 @@ export class DashboardComponent implements OnInit {
           if (medicine.uuid === medicineId) {
             medicine = updatedMedicineData;
           }
-          newMedicinesList.add(medicine);
+          newMedicinesList.push(medicine);
         });
         this.allMedicinesList = newMedicinesList;
+        this.ref.detectChanges();
       }, 
       (error) => {
         this.handleError(error);
@@ -90,10 +92,11 @@ export class DashboardComponent implements OnInit {
         let newMedicinesList:any = [];
         this.allMedicinesList.forEach((medicine: any) => {
           if (medicine.uuid !== medicineId) {
-            newMedicinesList.add(medicine);
+            newMedicinesList.push(medicine);
           }
         });
         this.allMedicinesList = newMedicinesList;
+        this.ref.detectChanges();
       },
       (error) => {
         this.handleError(error);
