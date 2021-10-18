@@ -1,0 +1,18 @@
+<div class="row">
+    <div *ngFor="let medicine of allMedicinesList" class="col-sm-3 medicineCard">
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">{{medicine.medicine_name}}</h5>
+                <h6 class="card-subtitle mb-2 text-muted">{{medicine.uuid}}</h6>
+                <p class="card-text">
+                    <strong>{{medicine.medicine_name}}</strong> from <strong>{{medicine.company_name}}</strong>
+                    Medicine gets Expires on {{medicine.expiry_date}}
+                    Cost of the medicine {{medicine.price}} with discount {{medicine.discount}}
+                    Available Stock is {{medicine.stock}}
+                </p>
+                <button class="btn btn-sm btn-primary">Edit</button>
+                <button class="btn btn-sm btn-danger" style="margin-left: 19rem;" (click)="deleteMedicine(medicine.uuid)">Delete</button>
+            </div>
+        </div>
+    </div>
+</div>
